@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core;
+package org.com.pangolin.domain.core.entidade;
 
 /**
  * An abstract base class for domain entities that provides common identity management.

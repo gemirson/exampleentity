@@ -1,6 +1,6 @@
 package org.com.pangolin.domain;
 
-import org.com.pangolin.domain.core.EntityId;
+import org.com.pangolin.domain.core.entidade.EntityId;
 
 import java.util.Objects;
 

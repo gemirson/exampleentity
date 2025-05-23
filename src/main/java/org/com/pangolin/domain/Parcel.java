@@ -1,6 +1,7 @@
 package org.com.pangolin.domain;
 
 import org.com.pangolin.domain.core.*;
+import org.com.pangolin.domain.core.entidade.Entity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class Parcel extends Entity<String,ParcelId>  implements Comparable<Parcel>{
+public class Parcel extends Entity<String,ParcelId> implements Comparable<Parcel>{
 
     private final BigDecimal amount;
     private final LocalDate dueDate;

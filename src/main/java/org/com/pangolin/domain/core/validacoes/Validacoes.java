@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core;
+package org.com.pangolin.domain.core.validacoes;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -10,15 +10,29 @@ import java.util.function.Predicate;
 public final class Validacoes {
     private Validacoes() {}
 
+    /**
+     * Validador que verifica se o valor é não nulo
+     * @param <T> Tipo do valor
+     * @return Validator configurado
+     */
     public static final Validator<Object> NAO_NULO =
             Validator.of(Objects::nonNull, "O valor não pode ser nulo");
 
+    /*** Validador que verifica se a string não é vazia
+     * @return Validator configurado para String
+     */
     public static final Validator<String> NAO_VAZIO =
-            Validator.of(s -> !s.isEmpty(), "A string não pode ser vazia");
-
-    // Validador combinado pronto para uso
+            Validator.of(s -> !s.trim().isEmpty(), "A string não pode ser vazia");
+     /** Validador que verifica se o valor é não nulo e não vazio
+     * @return Validator configurado para String
+     */
     public static final Validator<String> NAO_NULO_NEM_VAZIO =
             NAO_NULO.evolveTo(String.class).and(NAO_VAZIO);
+
+    /** Validador que verifica se o valor é positivo (maior ou igual a zero)
+     * @param <Number> Tipo numérico
+     * @return Validator configurado
+     */
     public static final Validator<Number> POSITIVO =
             Validator.of(n -> n.doubleValue() >= 0, "O valor deve ser positivo");
 
@@ -48,7 +62,7 @@ public final class Validacoes {
         );
     }
 
-    // Versão com mensagem padrão
+
     public static <T> Validator<T> naoContidoEm(Collection<? extends T> colecao) {
         return naoContidoEm(colecao, null);
     }
@@ -72,21 +86,75 @@ public final class Validacoes {
                 mensagemErro
         );
     }
-    // Versão segura para evolução de validador
+    /**
+     * Evolui um validador para um tipo mais específico
+     * @param validator Validador original
+     * @param targetType Classe do novo tipo (para segurança)
+     * @param <T> Tipo original do validador
+     * @param <R> Novo tipo (deve ser subtipo de T)
+     * @return Novo validador com tipo mais específico
+     */
     public static <T, R extends T> Validator<R> evolveValidator(
             Validator<T> validator, Class<R> targetType) {
         return validator::validar;
     }
 
-    // Método para strings não nulas e não vazias
+    /** Validador que verifica se o valor é não nulo e não vazio
+     * @return Validator configurado para String
+     */
     public static Validator<String> stringNaoNulaNemVazia() {
         return evolveValidator(NAO_NULO, String.class).and(NAO_VAZIO);
     }
 
+    /**
+     * Validador que verifica se o valor é maior que o limite especificado
+     * @param limite Limite para comparação
+     * @param <T> Tipo do valor (deve implementar Comparable)
+     * @return Validator configurado
+     */
     public static <T extends Comparable<T>> Validator<T> maiorQue(T limite) {
         return Validator.of(
                 v -> v.compareTo(limite) > 0,
                 "O valor deve ser maior que " + limite
+        );
+    }
+    /** Validador que verifica se o valor é menor que o limite especificado
+     * @param limite Limite para comparação
+     * @param <T> Tipo do valor (deve implementar Comparable)
+     * @return Validator configurado
+     */
+    public static Validator<String> carteiraId(String codido) {
+        return  Validator.<String>of(Objects::nonNull, codido, "ID não pode ser nulo", true)
+                .and(notBlankValidator())
+                .and(startsWithPrefixValidator())
+                .and(minLengthValidator(10))
+                .and(notLettersOnlyValidator())
+                .and(notLettersOnlyValidatorRegex());
+    }
+
+    // Validadores componentes
+    private static Validator<String> notBlankValidator() {
+        return Validator.of(s -> !s.isBlank(), " ID  não pode ser em branco");
+    }
+
+    private static Validator<String> startsWithPrefixValidator() {
+        return Validator.of(s -> s.startsWith("WALLET-"), "ID não poder começar com Carteira - prefixo");
+    }
+
+    private static Validator<String> minLengthValidator(int minLength) {
+        return Validator.of(s -> s.length() >= minLength,
+                "O Id da Carteira deve ter um comprimento minimo  " + minLength + "caracteres");
+    }
+    private static Validator<String> notLettersOnlyValidator() {
+        return Validator.of(
+                s -> s.chars().anyMatch(Character::isDigit),
+                "O Id da Carteira deve conter pelo menos um caractere numérico"
+        );
+    }
+    private static Validator<String> notLettersOnlyValidatorRegex() {
+        return Validator.of(
+                s -> s.matches(".*[0-9].*"),
+                "O Id da Carteira deve conter pelo menos um caractere numérico"
         );
     }
 

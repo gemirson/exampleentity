@@ -2,9 +2,8 @@ package org.com.pangolin.domain;
 
 
 import org.com.pangolin.domain.core.Either;
-import org.com.pangolin.domain.core.Entity;
+import org.com.pangolin.domain.core.entidade.Entity;
 import org.com.pangolin.domain.core.ValidationResult;
-import org.com.pangolin.domain.core.WalletConstants;
 
 import java.math.BigDecimal;
 import java.util.*;

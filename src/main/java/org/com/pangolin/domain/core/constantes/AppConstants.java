@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core;
+package org.com.pangolin.domain.core.constantes;
 
 import java.util.Collections;
 import java.util.HashMap;

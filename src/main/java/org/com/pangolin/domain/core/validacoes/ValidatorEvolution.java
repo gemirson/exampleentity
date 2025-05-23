@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core;
+package org.com.pangolin.domain.core.validacoes;
 
 import java.util.Objects;
 
