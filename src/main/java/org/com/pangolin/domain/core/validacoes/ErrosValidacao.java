@@ -17,8 +17,8 @@ public record ErrosValidacao(String codigo, String menssagem,
     public String toString() {
         return "ErrosValidacao{" +
 
-                ", codigo='" + codigo + '\'' +
-                ", menssagem='" + menssagem + '\'' +
+                "codigo='" + codigo + '\'' +
+                ", mensagem='" + menssagem + '\'' +
                 '}';
     }
 }

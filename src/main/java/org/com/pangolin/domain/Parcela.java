@@ -93,12 +93,23 @@ public class Parcela extends Entity<String,ParcelaId> {
             this.dataVencimento = dataVencimento;
             return this;
         }
+        /**
+         * Builds a new Parcela instance with the provided parameters.
+         *
+         * @return a new Parcela instance
+         * @throws IllegalArgumentException if any validation fails
+         */
 
         public  Parcela build() {
             validar();
             return new Parcela(this);
         }
 
+        /**
+         * Validates the fields of the Parcela instance.
+         *
+         * @throws org.com.pangolin.domain.core.validacoes.Validator.ValidacaoException if any validation fails
+         */
         private void validar(){
             RecordValidado.validar(id, Validator.of(v-> v != null,"FATAL_ERROR" ,"O Id da Parcela não pode ser nulo",true));
             RecordValidado.validar(dataVencimento, Validator.of(v -> v != null, "FATAL_ERROR", "A data de vencimento da Parcela não pode ser nula", true));

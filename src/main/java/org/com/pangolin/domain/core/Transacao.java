@@ -14,7 +14,7 @@ public record Transacao(
         List<Transacao> transacoesSimultaneas
 ) implements RecordValidado {
     public Transacao {
-        Validacoes.naoNuloENaoVazio().validar(id);
+      //  Validacoes.naoNuloENaoVazio().validar(id);
         validar(valor, Validacoes.MAIOR_QUE_ZERO);
 
         // Verifica se não há outra transação com mesmo ID

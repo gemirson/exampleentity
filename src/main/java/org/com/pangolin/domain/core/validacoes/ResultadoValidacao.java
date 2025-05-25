@@ -1,7 +1,5 @@
 package org.com.pangolin.domain.core.validacoes;
 
-import org.com.pangolin.domain.core.ValidationResult;
-
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,12 +9,13 @@ import static java.util.Collections.emptyList;
 
 public class ResultadoValidacao {
 
-    private  final  boolean valido;
+    private final  boolean valido;
     private Map<String, List<ErrosValidacao>> erros;
     private final boolean deveLancarExcecao = false;
 
     public ResultadoValidacao(boolean valido, Map<String, List<ErrosValidacao>> erros) {
         this.valido = valido;
+        Objects.requireNonNull(erros, "Erros não podem ser nulos");
         this.erros = erros;
     }
 
@@ -38,7 +37,9 @@ public class ResultadoValidacao {
     public Map<String, List<ErrosValidacao>> erros() {
         return erros;
     }
+
     public void comErros(Map<String, List<ErrosValidacao>> errosValidacao) {
+        Objects.requireNonNull(errosValidacao, "Erros de validação não podem ser nulos");
         this.erros = errosValidacao;
     }
 
@@ -47,13 +48,18 @@ public class ResultadoValidacao {
     }
 
     public  static ResultadoValidacao validar() {
-        return new ResultadoValidacao(true, null);
+        return new ResultadoValidacao(true, Collections.emptyMap());
     }
     public  static ResultadoValidacao invalidar(String campo, String codigo, String menssagem) {
         return invalidar(Map.of(campo, List.of(new ErrosValidacao(codigo, menssagem,false))));
     }
 
     public  static ResultadoValidacao invalidar(String campo, List<ErrosValidacao> errosValidacao) {
+        if (errosValidacao == null || errosValidacao.isEmpty()) {
+            throw new IllegalArgumentException("A lista de erros não pode ser nula ou vazia.");
+        }
+        if(campo==null) throw new IllegalArgumentException("Campo não pode ser vazio ou em branco");
+        if(campo.trim().isBlank() || campo.isEmpty()) throw new IllegalArgumentException("Campo não pode ser vazio ou em branco");
         return invalidar(Map.of(campo, errosValidacao));
     }
 
@@ -388,12 +394,12 @@ public class ResultadoValidacao {
      * @see #todosCodigoDeErro() ()
      * @see Collectors#groupingBy(Function, Supplier, Collector)
      */
-    public Map<String, List<Map.Entry<String, ErrosValidacao>>> erroPorCodigo() {
+    public Map<String,  List<ErrosValidacao>> erroPorCodigo() {
         return erroStream()
                 .collect(Collectors.groupingBy(
                         e -> e.getValue().codigo(),
                         LinkedHashMap::new,
-                        Collectors.toList()
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())
                 ));
     }
 
@@ -461,16 +467,21 @@ public class ResultadoValidacao {
      *           possible, they should be handled within the formatter function.
      */
     public List<String> mensagemFormatadas(Function<ErrosValidacao, String> formatador) {
-        List<String> resultado = new ArrayList<>();
-        erros.forEach((key, errors) -> {
-            errors.forEach(error -> {
-                resultado.add(formatador.apply(error));
-            });
-        });
-        Collections.reverse(resultado);
-        return resultado;
+        return erros.values()
+                .stream()
+                .flatMap(List::stream)
+                .map(formatador)
+                .collect(Collectors.toList());
     }
 
+    @Override
+    public  String toString() {
+        return "ResultadoValidacao{" +
+                "valido=" + valido +
+                ", erros=" + erros +
+
+                '}';
+    }
     public static class ValidacaoException extends RuntimeException {
         public ValidacaoException(String message) {
             super(message);

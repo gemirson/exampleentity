@@ -51,7 +51,8 @@ public class Carteira extends Entity<String,CarteiraId> {
 
     }
 
-    private  ResultadoValidacao validarCarteira(DadosDoEventoContrato dados){
+    public static ResultadoValidacao validarCarteira(DadosDoEventoContrato dados){
+        Objects.requireNonNull(dados, "Dados do evento contrato não podem ser nulos");
 
         validacaoService.adicionarValidacao("PARCELAS",
                                                     RecordValidado.validar(dados.parcelas(), Validacoes.listaNaoVazia()))
@@ -73,14 +74,11 @@ public class Carteira extends Entity<String,CarteiraId> {
      * @return the newly created Carteira instance validated against the provided data
      * @throws IllegalArgumentException if the contract event data is invalid
      */
-    public ResultadoOuErro<ResultadoValidacao,Carteira> aberturaCarteira(DadosDoEventoContrato dadosDoEventoContrato) throws ResultadoValidacao.ValidacaoException {
+    public Carteira aberturaCarteira(DadosDoEventoContrato dadosDoEventoContrato) throws ResultadoValidacao.ValidacaoException {
 
         Objects.requireNonNull(dadosDoEventoContrato, "Dados do evento contrato não podem ser nulos");
-
         ResultadoValidacao validacao = validarCarteira(dadosDoEventoContrato);
-        return  validacao.valido()
-                ? ResultadoOuErro.direito(criarCarteiraComDados(dadosDoEventoContrato))
-                : ResultadoOuErro.esquerdo(validacao);
+        return  validacao.valido()? criarCarteiraComDados(dadosDoEventoContrato):null;
 
 
     }
