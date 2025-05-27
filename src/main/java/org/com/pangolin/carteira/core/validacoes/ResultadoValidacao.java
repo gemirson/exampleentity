@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core.validacoes;
+package org.com.pangolin.carteira.core.validacoes;
 
 import java.util.*;
 import java.util.function.Function;
@@ -41,6 +41,11 @@ public class ResultadoValidacao {
     public void comErros(Map<String, List<ErrosValidacao>> errosValidacao) {
         Objects.requireNonNull(errosValidacao, "Erros de validação não podem ser nulos");
         this.erros = errosValidacao;
+    }
+
+    public static ResultadoValidacao adicionarErros(Map<String, List<ErrosValidacao>> errosValidacao) {
+        Objects.requireNonNull(errosValidacao, "Erros de validação não podem ser nulos");
+        return new ResultadoValidacao(false, errosValidacao);
     }
 
     public static  ResultadoValidacao invalidar(Map<String, List<ErrosValidacao>> errosValidacao) {

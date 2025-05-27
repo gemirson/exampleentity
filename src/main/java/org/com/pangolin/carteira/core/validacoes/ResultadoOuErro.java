@@ -1,6 +1,4 @@
-package org.com.pangolin.domain.core.validacoes;
-
-import org.com.pangolin.domain.Carteira;
+package org.com.pangolin.carteira.core.validacoes;
 
 import java.util.Objects;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core.comandos;
+package org.com.pangolin.carteira.core.comandos;
 
 import java.util.HashMap;
 import java.util.Map;

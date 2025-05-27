@@ -1,4 +1,4 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao.eventos.entrada;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

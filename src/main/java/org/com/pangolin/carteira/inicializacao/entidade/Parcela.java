@@ -1,13 +1,13 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao.entidade;
 
-import org.com.pangolin.domain.core.entidade.Entity;
-import org.com.pangolin.domain.core.validacoes.RecordValidado;
-import org.com.pangolin.domain.core.validacoes.Validator;
+import org.com.pangolin.carteira.core.entidade.Entity;
+import org.com.pangolin.carteira.core.validacoes.RecordValidado;
+import org.com.pangolin.carteira.core.validacoes.Validator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class Parcela extends Entity<String,ParcelaId> {
+public class Parcela extends Entity<String, ParcelaId> {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -108,7 +108,7 @@ public class Parcela extends Entity<String,ParcelaId> {
         /**
          * Validates the fields of the Parcela instance.
          *
-         * @throws org.com.pangolin.domain.core.validacoes.Validator.ValidacaoException if any validation fails
+         * @throws Validator.ValidacaoException if any validation fails
          */
         private void validar(){
             RecordValidado.validar(id, Validator.of(v-> v != null,"FATAL_ERROR" ,"O Id da Parcela não pode ser nulo",true));

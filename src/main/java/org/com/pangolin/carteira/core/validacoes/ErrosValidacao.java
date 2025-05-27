@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core.validacoes;
+package org.com.pangolin.carteira.core.validacoes;
 
 public record ErrosValidacao(String codigo, String menssagem,
                              boolean deveLancarExcecao)implements RecordValidado {

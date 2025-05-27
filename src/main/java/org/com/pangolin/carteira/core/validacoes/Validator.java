@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core.validacoes;
+package org.com.pangolin.carteira.core.validacoes;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,20 +1,13 @@
 package org.com.pangolin.domain.core;
 
-import org.com.pangolin.domain.core.validacoes.ErrosValidacao;
-import org.com.pangolin.domain.core.validacoes.ResultadoValidacao;
+import org.com.pangolin.carteira.core.validacoes.ErrosValidacao;
+import org.com.pangolin.carteira.core.validacoes.ResultadoValidacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.JsonNode;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.SerializationFeature;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;

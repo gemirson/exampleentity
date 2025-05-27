@@ -1,7 +1,7 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao.entidade.servicos;
 
-import org.com.pangolin.domain.core.validacoes.ErrosValidacao;
-import org.com.pangolin.domain.core.validacoes.ResultadoValidacao;
+import org.com.pangolin.carteira.core.validacoes.ErrosValidacao;
+import org.com.pangolin.carteira.core.validacoes.ResultadoValidacao;
 
 import java.util.List;
 

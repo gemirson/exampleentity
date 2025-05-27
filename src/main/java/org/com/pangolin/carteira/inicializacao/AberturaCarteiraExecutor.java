@@ -1,12 +1,14 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao;
 
-import org.com.pangolin.domain.core.comandos.CarteiraComandoExecutor;
-import org.com.pangolin.domain.core.validacoes.ResultadoOuErro;
-import org.com.pangolin.domain.core.validacoes.ResultadoValidacao;
+import org.com.pangolin.carteira.inicializacao.entidade.Carteira;
+import org.com.pangolin.carteira.inicializacao.eventos.entrada.DadosDoEventoContrato;
+import org.com.pangolin.carteira.core.comandos.CarteiraComandoExecutor;
+import org.com.pangolin.carteira.core.validacoes.ResultadoOuErro;
+import org.com.pangolin.carteira.core.validacoes.ResultadoValidacao;
 
 import java.util.Objects;
 
-public class AberturaCarteiraExecutor extends CarteiraComandoExecutor<Carteira,DadosDoEventoContrato> {
+public class AberturaCarteiraExecutor extends CarteiraComandoExecutor<Carteira, DadosDoEventoContrato> {
 
     /**
      * Método para validar as regras de negócio do comando de abertura de carteira.
@@ -34,7 +36,7 @@ public class AberturaCarteiraExecutor extends CarteiraComandoExecutor<Carteira,D
     public Carteira executar(DadosDoEventoContrato command) {
         Objects.requireNonNull(command, "Dados do evento contrato não podem ser nulos");
         Carteira carteira = Carteira.criarCarteira().build();
-        return carteira.aberturaCarteira(command);
+        return carteira.aberturaCarteira(command).get();
 
     }
 

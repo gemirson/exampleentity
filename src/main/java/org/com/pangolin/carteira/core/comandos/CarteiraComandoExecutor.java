@@ -1,7 +1,7 @@
-package org.com.pangolin.domain.core.comandos;
+package org.com.pangolin.carteira.core.comandos;
 
-import org.com.pangolin.domain.core.validacoes.ResultadoOuErro;
-import org.com.pangolin.domain.core.validacoes.ResultadoValidacao;
+import org.com.pangolin.carteira.core.validacoes.ResultadoOuErro;
+import org.com.pangolin.carteira.core.validacoes.ResultadoValidacao;
 
 import java.util.Objects;
 import java.util.function.Function;

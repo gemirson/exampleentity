@@ -1,9 +1,9 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao.entidade;
 
 
-import org.com.pangolin.domain.core.entidade.EntityId;
-import org.com.pangolin.domain.core.validacoes.RecordValidado;
-import org.com.pangolin.domain.core.validacoes.Validacoes;
+import org.com.pangolin.carteira.core.entidade.EntityId;
+import org.com.pangolin.carteira.core.validacoes.RecordValidado;
+import org.com.pangolin.carteira.core.validacoes.Validacoes;
 
 public  class CarteiraId extends EntityId<String> {
     /**

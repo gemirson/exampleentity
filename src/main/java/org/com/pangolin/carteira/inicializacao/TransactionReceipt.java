@@ -1,4 +1,4 @@
-package org.com.pangolin.domain.core;
+package org.com.pangolin.carteira.inicializacao;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,14 +1,17 @@
-package org.com.pangolin.domain;
+package org.com.pangolin.carteira.inicializacao.entidade;
 
-import org.com.pangolin.domain.core.entidade.Entity;
-import org.com.pangolin.domain.core.validacoes.RecordValidado;
-import org.com.pangolin.domain.core.validacoes.ResultadoOuErro;
-import org.com.pangolin.domain.core.validacoes.ResultadoValidacao;
-import org.com.pangolin.domain.core.validacoes.Validacoes;
+import org.com.pangolin.carteira.inicializacao.eventos.entrada.DadosDoEventoContrato;
+import org.com.pangolin.carteira.inicializacao.eventos.entrada.ParcelaDoEventoContrato;
+import org.com.pangolin.carteira.inicializacao.entidade.servicos.CarteiraValidacaoService;
+import org.com.pangolin.carteira.core.entidade.Entity;
+import org.com.pangolin.carteira.core.validacoes.RecordValidado;
+import org.com.pangolin.carteira.core.validacoes.ResultadoValidacao;
+import org.com.pangolin.carteira.core.validacoes.Validacoes;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Represents a wallet (Carteira) entity in the domain model.
@@ -19,7 +22,7 @@ import java.util.Objects;
  * <p>It provides methods to create a new wallet based on contract event data
  * and to validate the wallet's properties.</p>
  */
-public class Carteira extends Entity<String,CarteiraId> {
+public class Carteira extends Entity<String, CarteiraId> {
 
     /**
      * Represents a wallet (Carteira) entity in the domain model.
@@ -35,7 +38,7 @@ public class Carteira extends Entity<String,CarteiraId> {
     private CarteiraId    carteiraId;
     private List<Parcela> parcelas =  new ArrayList<Parcela>();
 
-    private  static  final  CarteiraValidacaoService validacaoService = CarteiraValidacaoService.criar();
+    private  static  final CarteiraValidacaoService validacaoService = CarteiraValidacaoService.criar();
 
 
     /**
@@ -50,7 +53,15 @@ public class Carteira extends Entity<String,CarteiraId> {
 
 
     }
-
+    /**
+     * Validates the wallet (Carteira) based on the provided contract event data.
+     *
+     * <p>This method checks if the wallet's properties meet the required validation rules.</p>
+     *
+     * @param dados the contract event data containing wallet details
+     * @return a ResultadoValidacao object containing validation results
+     * @throws IllegalArgumentException if the contract event data is null
+     */
     public static ResultadoValidacao validarCarteira(DadosDoEventoContrato dados){
         Objects.requireNonNull(dados, "Dados do evento contrato não podem ser nulos");
 
@@ -65,7 +76,8 @@ public class Carteira extends Entity<String,CarteiraId> {
 
 
     }
-    /** * Opens a new wallet (Carteira) based on the provided contract event data.
+    /**
+     * Opens a new wallet (Carteira) based on the provided contract event data.
      *
      * <p>This method validates the contract event data and initializes the wallet with
      * the specified contract number and associated installments.</p>
@@ -74,11 +86,14 @@ public class Carteira extends Entity<String,CarteiraId> {
      * @return the newly created Carteira instance validated against the provided data
      * @throws IllegalArgumentException if the contract event data is invalid
      */
-    public Carteira aberturaCarteira(DadosDoEventoContrato dadosDoEventoContrato) throws ResultadoValidacao.ValidacaoException {
+    public Optional<Carteira> aberturaCarteira(DadosDoEventoContrato dadosDoEventoContrato) throws ResultadoValidacao.ValidacaoException {
 
         Objects.requireNonNull(dadosDoEventoContrato, "Dados do evento contrato não podem ser nulos");
         ResultadoValidacao validacao = validarCarteira(dadosDoEventoContrato);
-        return  validacao.valido()? criarCarteiraComDados(dadosDoEventoContrato):null;
+        if (validacao.valido()) {
+            return Optional.of(criarCarteiraComDados(dadosDoEventoContrato));
+        }
+        return Optional.empty();
 
 
     }
@@ -118,10 +133,6 @@ public class Carteira extends Entity<String,CarteiraId> {
                         .build())
                 .toList();
     }
-
-
-
-
 
      /**
      * Creates a new Builder instance for constructing a Carteira entity.
